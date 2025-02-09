@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .save-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .save-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="text-align:center; color: red;">Add Expense</h2>
+    <form action="{% url 'outcome' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>How much?</label>
+            <input type="text" id="amount" value="$ " required name="amount">
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select id="category" required name="category_id">
+                <option value="">Select category</option>
+                {% for category in categories %}
+                    <option value="{{ category.pk }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="3" placeholder="Add a description"></textarea>
+        </div>
+
+        <button type="submit" class="save-btn">Save</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('amount').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = '$ ' + value;
+    });
+</script>
+
+</body>
+</html>
